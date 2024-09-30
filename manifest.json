@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Paulina",
+  "description": "blah blah blah blah",
+  "version": "0.2",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "supercoolextension.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "options_page": "options.html",
+  "icons": {
+    "128": "wordart.png",
+    "48": "wordart.png"
+  }
+}
+

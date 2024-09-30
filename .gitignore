@@ -1,0 +1,5 @@
+# This file lists other files that we don't want to end up
+# in git. So here we tell git to ignore there
+
+# Mac internal files that we can ignore as well
+.DS_Store
