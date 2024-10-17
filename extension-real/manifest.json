@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Slang dictionary",
+    "description": "What do all these new-fangled words mean? And why are they in my damn news articles? WARNING: Do not activate while actively searching, only turn on when webpage has loaded. It may still work, but it also might not :)",
+    "version": "1.0",
+    "content_scripts": [
+      {
+        "matches": [
+          "*://*/*"
+        ],
+        "js": [
+            "slanglist.js",
+          "supercoolextension.js"
+        ],
+        "run_at": "document_idle"
+      }
+    ],
+    "permissions" :["scripting", "activeTab"],
+    "icons": {
+      "128": "wordart (1).png"
+    }
+  }

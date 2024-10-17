@@ -1,0 +1,22 @@
+ok whats going on:
+- Something that accesses the domain name of the tab the user is visiting
+    - maybe via window.location.hostname..... or sessionLocal
+- Send this to geolocation IP (tools.keycdn.com or ip-api.com), which will return JSON data or whatev you call it containing lat/long and city/country name, set those to specific variables
+    - Since this can take some time, it needs to run in the background (background.js) otherwise you get the eternal load problem/problems w whatever the hell cors is
+- Use built in geolocation API to get the user's location (need in lat/long format too)
+- Calculate the distance between the two using haversine distance equation
+    -This can be done in the content file.... I think
+- Display data like so:
+    - "You are (x distance) (unit (km or mi)) from (domain name), which is located in (City), (Country)"
+- If possible, have distances stored across tabs/websites in a chrome session, and have those distances added up to be displayed: "You've travelled (total distance) (unit) on the information highway this session, congrats?"
+    - use chrome.storage...
+- Would be cool to have a button to switch between km and mi, and have comparison statistics using t = d/s where d is distances already given, and speed can be taken from the average speed of a car or carrier pigeon or whatever.... (eg. It would take a carrier pigeon (x time) to bring you this information)
+
+Weird stuff:
+- the APIs don't seem to like handling specific webpages within a domain so only the domain name needs to be fetched from the browser, otherwise the process is invalid/fails?
+- Not sure about loading times since the API calls can take a bit it seems?
+    - How to keep that stuff running in the background... or speed it up....
+        - Could fix this by just having the extension be a window that stays open in the corner of the screen until the user closes it (x button?)... I think it would stil run then???
+- dude this is hard.....................
+- what are curling and callbacks??? 
+- no python i don't wanna know what's up w that server stuff if I put it in an extension screw Flask

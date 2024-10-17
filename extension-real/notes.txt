@@ -1,0 +1,124 @@
+General notes about things I don't know:
+
+- NODES!! bc I keep forgetting: they are a single part of the DOM (eg. the document itself, or <p> elements). Each node has a parent and a child, the part of the DOM they are contained within (eg. <p> being the child of a parent <div>)
+    - The actual text on an html page is actually the child of its parent <p> or <h1> or whatever it's called node
+    - You can manipulate the DOM by targeting different parts of it, using methods like append, remove and replace
+
+- For font resizing issues: https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
+    - Actually the issue is probably bc all instances of the replaced words are within the same kind of node (with the same styling). Fixing this would be a pain and probably require me to write a bunch of if statements to check the tags of the parent node, and then replace them with different nodes/stylings, which I don't wanna do right now.
+
+- FUNCTION vs MODULE vs PROPERTY vs METHOD: 
+    - Function: you already know...but I'll say it again! A way for code to be reused so you don't have to rewrite it all the time
+        - Remember that variables and consts declared inside a function ARE NOT GLOBAL they are local to that function
+    - Module: have to be import/exported across files, a way to separate parts of your code for clarity/efficiency. They can contain functions and properties etc.etc. but they are their own thing!
+        - Extensions don't really support importing modules for some reason
+    - Property: a characteristic of something else (eg. from key-value pairs in things like dictionaries... or the length of an array), for values. Kind of like an adjective.
+    - Method: a (typically prewritten or built-in) function thats associated with something else (eg. using .sort on an array, or .appendChild on a node), for actions. Like a verb (you can do stuff like .sort(someFunction) where those are like adverbs I guess).
+
+- Declarations vs initializations:
+    - Declarations are hoisted (prioritized, eg. a value can be hoisted from a function into the global scope...sometimes...for some reason) by js; the creation of a variable (eg. let x)
+    - Initializations are not hoisted by javascript; when initial values are assigned to variables (eg. x = 5)
+
+- Fucking regex (Regular Expressions) for the link swapping:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Cheatsheet
+    - actually not as complicated as I thought, was used in the lesson example for treewalker.
+        - useful flags (specifies how the search is conducted, needs to be separated by a comma):
+            - g (global, doesn't stop after first match)
+            - i (case insensitive)
+        - useful assertions (where to start and stop searching):
+            - \b (to make sure stuff like 'mid' in middle don't get highlighted, where the word itself ends at), could also use \w (?)
+        - Template Literals can mess with this, they need to be separated
+    - use replace()!! or replaceAll()
+
+- ${Template Literals}:
+If Template Literals = `these are backticks`, this section would be named "these are backticks"
+    - A way to work with strings which allows for easier manipulation, eg:
+        - Dynamic text (having part of a website be replaced by variables)
+        - HTML/CSS injections (since you can write literal code inside them and use queryselectors or treewalkers to edit the dom)
+
+- HTML/CSS Injections:
+    - using innerHTML: You can create a new element within the DOM and use template literals to write out normal html code in that element, so it's inserted into the actual html structure
+    - you can also use .textContent to add text as a normal string and create elements which are named after standard html tags
+    - can you appened the document head using <style> within javascript, and write out the css using template literals for multi-line chunks
+
+
+.,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..~`*`~,.  
+THE BIG FUNCTION SECTION:
+
+- RREMEMBER: (w3schools) "JavaScript functions are executed in the sequence they are called. Not in the sequence they are defined." Amen.
+
+- Function Parameters vs Arguments:
+    - Parameters... eg. function(parameter1, parameter2): 
+        - Can be both values and objects (such as functions)
+        - Written in the function(definition), the expected inputs for a function
+        - They are assigned the values of the argument(s) in the function
+            - mdn: "If the code within the body of a function assigns a completely new value to a parameter that was passed to the function, the change is not reflected globally or in the code which called that function." ...What? 
+    - Arguments... eg. function(1, 2):
+        - They pass values along to the function, essentially input data (eg. from variables)
+        
+- SPECIES OF FUNCTIONS:
+  *Note 1: functions are objects in js, therefore you can use methods and properties on them. They can also be used as values in expressions (eg. let x = y*function)
+  *Note 2: Fuck whatever 'this' is, I am NOT dealing with that (right now)
+  *Note 3: Invoking != Executing
+
+    - Declared functions (eg. function(functionname)(){whatever}):
+        - only invoked when called by functionname
+    - Anonymous/Variable functions (functions without a name, eg. const x = function (a, b) {whatever}):
+        -  again, only invoked later when called upon (eg x*3 = whatever*3)
+    - Self invoking functions (eg. (function(){whatever})();)
+        - w3schools: "Function expressions will execute automatically if the expression is followed by ()"
+        - can also be anonymous
+    - => whatever the hell this thing is:
+        - A shorter way to write functions
+        - Not hoisted! must be declared before calling upon them...
+            - they can be anonymous though!
+        - Example (w3schools):
+            - var x = function(x, y) {return x * y;} ... standard variable function
+            - const x = (x, y) => x * y; ... arrow function example (do not use var/let with these + you always need a return line)
+        - syntax (from MDN): 
+        () => expression
+        param => expression
+        (param) => expression
+        (param1, paramN) => expression
+        () => {statements}
+        param => {statements}
+        (param1, paramN) => {statements}
+
+    - ASYNCHRONOUS FUNCTIONS: a function that waits until an event/trigger/whatever you call it to execute
+        - Callback functions: 
+        Note (w3schools): "When you pass a function as an argument, remember not to use parenthesis()"
+            - Passed as an argument to another function, only executed after its called upon (eg. timerFunction(() => {console.log('function executed after 5 seconds');}, 5000);), where console.log() is part of an anonymous function within timerFunction that only executes after 5 seconds have passed
+        - Promises (USEFUL FOR APIS):
+            - A Promise can either be pending, fufilled, rejected, or settled (which is exactly what it sounds like)
+            - there are two parts to promises: a promiser and a promisee. The promiser promises data that may not be known until the function is executed, the promisee uses the data from the promiser.
+                - THE PROMISER: Makes the promise, if its function is successful (eg. in fetching data) it can send message alerting the consumer that it's been successful and passes on that data if needed, if there's an error it does the same (can do this through .throw or reject())
+                - THE PROMISEE: Receives messages from the promiser about the status of the promise. Uses .catch for error handling from the promiser
+        - Await can be used in any async function to pause its execution until a certain condition or event has occurred (eg. when using Fetch)
+.,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,.
+
+- Docs needed:
+
+    - manifest (obv, need permissions for activeTab I think...)
+        - note: seems like the files need to be loaded in a specific order, eg. slang list has to be loaded first to make sure info is global (don't want to have word list in same doc as content in case I update it to a bigger dataset later like UD), then 
+        - background.js acts as a 'service worker' and doesn't go in content scripts
+            - service workers run in the background, are triggered by events, and run on a different 'path'(thread) to the rest of program allowing for better performance, if this is in the main content file the fetch requests will always default to the google link and then be blocked by the browser bc of some weird error (cors, something about accessing external links in a weird way)
+                - CANNOT MANIPULATE DOM!! This has to be in the main file!
+    - background: the Fetch API thing will check to see if the Merriam Webster definition of a word exists and then retrives the link (upon the content file coming across a word within the word list). If there isn't a definition, it will default to a google search of that word.
+        - Problem: The merriam webster links still work even if the word isn't defined in their dictionary, could implement a way for the extension to check if the page it's routing to has "The word you've entered isn't in the dictionary. Click on a spelling suggestion below or try again using the search bar above." in it, and then reroute to the google search link?
+            -> Issues with pages loading dynamically so text isn't detected... whatever idk how to fix this
+        - Would be useful to set a variable for the link retrived, so that the word can be swapped out easily in the main content file 
+    - Need a lil css code for the rainbow color styling (I want this separated for clarity)
+        -> ok so nvm actually the css doesn't work unless its in content.js for some reason, I've checked network in the 'inspect element' tab and it doesn't actually load...
+    - In the content file, a tree walker will be used to parse through all the <p> (and possibly stuff like <h1> etc too?) elements of the html page the user is visiting to avoid accidentally editing the html code itself
+        - could use something like "node.nodeValue = node.nodeValue.replace(/SEARCH/gi, 'REPLACE')" but the variable for search is any individual word from the word list 
+            - issues with the script trying to edit the DOM after its already ran... maybe all words in the webpage need to be identified and then the changes are implemented all at once? Or find a different method since the treewalker by nature goes through everything.
+                - alternatively: don't do that. too many errors. use queryselectALL and specify html tags to target
+
+.,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,..,~`*`~,.
+
+Would be nice:
+    - To have a larger database... someone scraped urban dictionary but not sure how I would use that 
+    - Have an on and off button for the rainbow effect? Maybe it swaps it with a color of the user's choice?
+    - I am not sure what other options would be useful? Maybe an on and off button in the popup itself?
